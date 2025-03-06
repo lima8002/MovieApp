@@ -10,7 +10,7 @@ export default function StartScreen() {
   return (
     <View className="flex-1 justify-center items-center gap-5 p-6 bg-card">
       <Image
-        source={require("../assets/images/Theatre-Transparent.png")}
+        source={require("../assets/images/main-logo.png")}
         className="flex-1 w-screen p-3"
       />
       <Text className="text-2xl font-semibold">Welcome to the Movie App.</Text>
