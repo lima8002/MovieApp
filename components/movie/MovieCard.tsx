@@ -9,11 +9,7 @@ import CoverCard from "./CoverCard";
 const MovieCard = () => {
   const { movies } = useMovieContext();
 
-  const renderItem = ({ item }: { item: Movie }) => (
-    <>
-      <CoverCard movie={item} />
-    </>
-  );
+  const renderItem = ({ item }: { item: Movie }) => <CoverCard movie={item} />;
 
   return (
     <View>
