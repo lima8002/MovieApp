@@ -1,10 +1,13 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { Movie } from "~/types/types";
-import { fetchMovies } from "./movie";
+import { Movie, MovieDetail } from "~/types/types";
+import { fetchMovieDetail, fetchMovies } from "./movie";
 
 interface MovieContextType {
   isLoading: boolean;
   movies: Movie[];
+  onFetchMovies: () => void;
+  movieDetail?: MovieDetail;
+  onFetchMovieDetail: (id: number) => void;
 }
 
 const MovieContext = createContext<MovieContextType | undefined>(undefined);
@@ -16,6 +19,7 @@ interface MovieProviderProps {
 export const MovieProvider: React.FC<MovieProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [movieDetail, setMovieDetail] = useState<MovieDetail>();
 
   const onFetchMovies = () => {
     setIsLoading(true);
@@ -23,6 +27,22 @@ export const MovieProvider: React.FC<MovieProviderProps> = ({ children }) => {
       .then((result) => {
         if (result) {
           setMovies(result);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  const onFetchMovieDetail = (id: number) => {
+    setIsLoading(true);
+    fetchMovieDetail(id)
+      .then((result) => {
+        if (result) {
+          setMovieDetail(result);
         }
       })
       .catch((error) => {
@@ -42,6 +62,9 @@ export const MovieProvider: React.FC<MovieProviderProps> = ({ children }) => {
       value={{
         isLoading,
         movies,
+        onFetchMovies,
+        movieDetail,
+        onFetchMovieDetail,
       }}
     >
       {children}

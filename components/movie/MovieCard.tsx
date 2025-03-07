@@ -1,15 +1,20 @@
 import React from "react";
-import { FlatList, StyleSheet, View, Image } from "react-native";
+import { FlatList, StyleSheet, View, TouchableOpacity } from "react-native";
 import { Text } from "./../ui/text";
 import { Movie } from "~/types/types";
-
+import { useRouter } from "expo-router";
 import { useMovieContext } from "~/lib/tmdb/movieContext";
 import CoverCard from "./CoverCard";
 
 const MovieCard = () => {
   const { movies } = useMovieContext();
+  const router = useRouter();
 
-  const renderItem = ({ item }: { item: Movie }) => <CoverCard movie={item} />;
+  const renderItem = ({ item }: { item: Movie }) => (
+    <TouchableOpacity onPress={() => router.push(`/${item.id}`)}>
+      <CoverCard poster_path={item.poster_path} />
+    </TouchableOpacity>
+  );
 
   return (
     <View>

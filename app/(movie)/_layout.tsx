@@ -10,6 +10,17 @@ export default function MovieLayout() {
         options={{
           animation: "fade",
           title: "Movies Directory",
+          headerBackTitle: "Back",
+          headerBackVisible: true,
+          headerRight: () => <ThemeToggle />,
+        }}
+      />
+      <Stack.Screen
+        name="(detail)"
+        options={{
+          title: "Movie Detail",
+          headerBackTitle: "Back",
+          headerBackVisible: true,
           headerRight: () => <ThemeToggle />,
         }}
       />
