@@ -22,7 +22,7 @@ const MovieCard = () => {
       <FlatList
         data={movies}
         renderItem={renderItem}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item) => item.id.toString()}
         horizontal
         initialNumToRender={19}
         showsHorizontalScrollIndicator={false}

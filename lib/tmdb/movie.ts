@@ -1,4 +1,4 @@
-import { Movie, MovieDetail } from "~/types/types";
+import { CastDetail, Movie, MovieDetail } from "~/types/types";
 
 const API_BASE_URL = "https://api.themoviedb.org/3";
 const API_KEY = process.env.EXPO_PUBLIC_TMDB_API_KEY;
@@ -36,8 +36,21 @@ export const fetchMovieDetail = async (id: number) => {
       `${API_BASE_URL}/movie/${id}?language=en-US&page=1`,
       API_OPTIONS
     );
-    const data: MovieDetail = await response.json();
-    return data;
+    const movie: MovieDetail = await response.json();
+    return movie;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchMovieCastDetail = async (id: number) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/movie/${id}/credits?language=en-US`,
+      API_OPTIONS
+    );
+    const cast: CastDetail = await response.json();
+    return cast;
   } catch (error) {
     console.log(error);
   }

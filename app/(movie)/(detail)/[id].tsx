@@ -1,18 +1,26 @@
-import { useLocalSearchParams } from "expo-router";
-import { Link } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
-import { Image, ScrollView, View, ImageBackground } from "react-native";
+import {
+  ScrollView,
+  View,
+  ImageBackground,
+  FlatList,
+  Image,
+} from "react-native";
+import { useLocalSearchParams } from "expo-router";
 import CoverCard from "~/components/movie/CoverCard";
+import { Card } from "~/components/ui/card";
 import { Text } from "~/components/ui/text";
 import { useMovieContext } from "~/lib/tmdb/movieContext";
-import { MovieDetail } from "~/types/types";
-
-// import GENRE_IDS from "~/lib/constants"
+import { CastArray } from "~/types/types";
 
 const DetailScreen = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { movieDetail, onFetchMovieDetail } = useMovieContext();
-
+  const {
+    movieDetail,
+    castDetail,
+    onFetchMovieDetail,
+    onFetchMovieCastDetail,
+  } = useMovieContext();
   const [headerHeight, setHeaderHeight] = useState<number>(0);
   const [headerWidth, setHeaderWidth] = useState<number>(0);
 
@@ -24,7 +32,43 @@ const DetailScreen = () => {
 
   useEffect(() => {
     onFetchMovieDetail(parseInt(id));
+    onFetchMovieCastDetail(parseInt(id));
   }, []);
+
+  const renderItem = ({ item }: { item: CastArray }) => {
+    return (
+      <View className="mr-3 max-h-[235] max-w-[125] min-h-[187.5] min-w-[125]">
+        <Card className="mr-5 overflow-hidden max-h-[187.5] max-w-[125] min-h-[187.5] min-w-[125]">
+          {item?.profile_path ? (
+            <Image
+              className="w-[125] h-[187.5]"
+              source={
+                item?.profile_path
+                  ? {
+                      uri: `https://image.tmdb.org/t/p/w500/${item?.profile_path}`,
+                    }
+                  : undefined
+              }
+            />
+          ) : item?.gender === 1 ? (
+            <View className="bg-gray-300 max-h-[187.5] max-w-[125] min-h-[187.5] min-w-[125] justify-center items-center">
+              <Text>🤦🏼‍♀️</Text>
+            </View>
+          ) : (
+            <View className="bg-gray-300 max-h-[187.5] max-w-[125] min-h-[187.5] min-w-[125] justify-center items-center">
+              <Text>🤦🏼</Text>
+            </View>
+          )}
+        </Card>
+        <Text
+          className="text-xl h-full mb-5"
+          style={{ height: "100%", width: "100%" }}
+        >
+          {item?.name}
+        </Text>
+      </View>
+    );
+  };
 
   return (
     <ScrollView onLayout={onLayout} style={{ height: 750 }}>
@@ -99,16 +143,34 @@ const DetailScreen = () => {
           <Text className="text-2xl pt-2">Overview:</Text>
           <Text className="text-xl">{movieDetail?.overview}</Text>
 
-          <Text className="text-2xl pt-2">Studio:</Text>
-          <Text className="text-xl">
-            {movieDetail?.production_companies[0].name},{" "}
-            {movieDetail?.production_companies[0].origin_country}
-          </Text>
-          <Text className="text-xl">
-            Release date: {movieDetail?.release_date.slice(8, 10)}-
-            {movieDetail?.release_date.slice(5, 7)}-
-            {movieDetail?.release_date.slice(0, 4)}
-          </Text>
+          <View>
+            <Text className="text-2xl mt-1">Extras:</Text>
+            <Text className="text-xl">
+              Studio: {movieDetail?.production_companies[0].name},{" "}
+              {movieDetail?.production_companies[0].origin_country}
+            </Text>
+            <Text className="text-xl">
+              Release date: {movieDetail?.release_date.slice(8, 10)}-
+              {movieDetail?.release_date.slice(5, 7)}-
+              {movieDetail?.release_date.slice(0, 4)}
+            </Text>
+            <Text className="text-xl">
+              Budget: ${movieDetail?.budget.toLocaleString("en-US")}.00
+            </Text>
+            <Text className="text-xl">
+              Revenue: ${movieDetail?.revenue.toLocaleString("en-US")}.00
+            </Text>
+          </View>
+          <View className="h-[290] mb-2">
+            <Text className="text-2xl pt-2">Cast:</Text>
+            <FlatList
+              data={castDetail?.cast}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.id.toString()}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
         </View>
       </ImageBackground>
     </ScrollView>
