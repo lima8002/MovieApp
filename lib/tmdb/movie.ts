@@ -1,4 +1,5 @@
 import { CastDetail, Movie, MovieDetail } from "~/types/types";
+import { TYPE_CLASS } from "../constants";
 
 const API_BASE_URL = "https://api.themoviedb.org/3";
 const API_KEY = process.env.EXPO_PUBLIC_TMDB_API_KEY;
@@ -11,16 +12,19 @@ const API_OPTIONS = {
 };
 
 interface TMDBResponse {
+  dates?: [];
   page: number;
   results: Movie[];
   total_pages: number;
   total_results: number;
 }
 
-export const fetchMovies = async () => {
+export const fetchMovies = async (type: number) => {
+  let fetchType = TYPE_CLASS[type].fetch;
+
   try {
     const response = await fetch(
-      `${API_BASE_URL}/movie/popular?language=en-US&page=1`,
+      `${API_BASE_URL}/movie/${fetchType}?language=en-US&page=1`,
       API_OPTIONS
     );
     const data: TMDBResponse = await response.json();

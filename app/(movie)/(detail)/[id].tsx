@@ -5,6 +5,7 @@ import {
   ImageBackground,
   FlatList,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import CoverCard from "~/components/movie/CoverCard";
@@ -16,6 +17,7 @@ import { CastArray } from "~/types/types";
 const DetailScreen = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
   const {
+    isLoading,
     movieDetail,
     castDetail,
     onFetchMovieDetail,
@@ -35,9 +37,13 @@ const DetailScreen = () => {
     onFetchMovieCastDetail(parseInt(id));
   }, []);
 
+  if (isLoading) {
+    return <ActivityIndicator size="large" color="#007bff" />;
+  }
+
   const renderItem = ({ item }: { item: CastArray }) => {
     return (
-      <View className="mr-3 max-h-[235] max-w-[125] min-h-[187.5] min-w-[125]">
+      <View className="mr-3 max-h-[435] max-w-[125] min-h-[187.5] min-w-[125]">
         <Card className="mr-5 overflow-hidden max-h-[187.5] max-w-[125] min-h-[187.5] min-w-[125]">
           {item?.profile_path ? (
             <Image
@@ -71,7 +77,14 @@ const DetailScreen = () => {
   };
 
   return (
-    <ScrollView onLayout={onLayout} style={{ height: 750 }}>
+    <ScrollView
+      onLayout={onLayout}
+      style={{
+        minHeight: 750,
+        maxHeight: headerHeight + 350,
+        paddingBottom: 500,
+      }}
+    >
       <ImageBackground
         style={{
           width: headerWidth,
@@ -161,18 +174,19 @@ const DetailScreen = () => {
               Revenue: ${movieDetail?.revenue.toLocaleString("en-US")}.00
             </Text>
           </View>
-          <View className="h-[290] mb-2">
+          <View className="h-[290] mb-2 overflow-auto">
             <Text className="text-2xl pt-2">Cast:</Text>
             <FlatList
               data={castDetail?.cast}
               renderItem={renderItem}
-              keyExtractor={(item) => item.id.toString()}
+              keyExtractor={(index, id) => index.toString() + id.toString()}
               horizontal
               showsHorizontalScrollIndicator={false}
             />
           </View>
         </View>
       </ImageBackground>
+      <View className="pb-40" />
     </ScrollView>
   );
 };
