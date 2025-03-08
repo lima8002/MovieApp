@@ -38,4 +38,9 @@ export const TYPE_CLASS = [
     name: "Upcoming",
     fetch: "upcoming",
   },
+  {
+    id: 4,
+    name: "Search",
+    fetch: "query",
+  },
 ];

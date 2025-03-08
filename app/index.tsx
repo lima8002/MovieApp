@@ -10,8 +10,9 @@ export default function StartScreen() {
   return (
     <View className="flex-1 justify-center items-center gap-5 p-6 bg-card">
       <Image
-        source={require("../assets/images/main-logo.png")}
-        className="flex-1 w-screen p-3"
+        source={require("assets/images/main-logo.png")}
+        className="flex-1 p-3"
+        style={{ width: "95%", height: "95%", resizeMode: "contain" }}
       />
       <Text className="text-2xl font-semibold">Welcome to the Movie App.</Text>
       <Text className="text-xl font-semibold">

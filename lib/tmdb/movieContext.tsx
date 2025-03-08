@@ -8,7 +8,8 @@ interface MovieContextType {
   moviesNowPlaying: Movie[];
   moviesTopRated: Movie[];
   moviesUpComing: Movie[];
-  onFetchMovies: (type: number) => void;
+  search: Movie[];
+  onFetchMovies: (type: number, query?: string) => void;
   movieDetail?: MovieDetail;
   onFetchMovieDetail: (id: number) => void;
   castDetail?: CastDetail;
@@ -27,29 +28,40 @@ export const MovieProvider: React.FC<MovieProviderProps> = ({ children }) => {
   const [moviesNowPlaying, setMoviesNowPlaying] = useState<Movie[]>([]);
   const [moviesTopRated, setMoviesTopRated] = useState<Movie[]>([]);
   const [moviesUpComing, setMoviesUpComing] = useState<Movie[]>([]);
+  const [search, setSearch] = useState<Movie[]>([]);
   const [movieDetail, setMovieDetail] = useState<MovieDetail>();
   const [castDetail, setCastDetail] = useState<CastDetail>();
 
-  const onFetchMovies = (type: number) => {
+  const onFetchMovies = async (type: number, query?: string) => {
     setIsLoading(true);
-    fetchMovies(type)
-      .then((result) => {
-        if (type === 0 && result) {
-          setMoviesPopular(result);
-        } else if (type === 1 && result) {
-          setMoviesNowPlaying(result);
-        } else if (type === 2 && result) {
-          setMoviesTopRated(result);
-        } else if (type === 3 && result) {
-          setMoviesUpComing(result);
+
+    console.log("another === > ", type, "query---> ", query);
+    try {
+      const result = await fetchMovies(type, query);
+      if (result) {
+        switch (type) {
+          case 0:
+            setMoviesPopular(result);
+            break;
+          case 1:
+            setMoviesNowPlaying(result);
+            break;
+          case 2:
+            setMoviesTopRated(result);
+            break;
+          case 3:
+            setMoviesUpComing(result);
+            break;
+          case 4:
+            setSearch(result);
+            break;
         }
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+      }
+    } catch (error) {
+      console.error("Error fetching movies:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const onFetchMovieDetail = (id: number) => {
@@ -99,6 +111,7 @@ export const MovieProvider: React.FC<MovieProviderProps> = ({ children }) => {
         moviesNowPlaying,
         moviesTopRated,
         moviesUpComing,
+        search,
         onFetchMovies,
         movieDetail,
         onFetchMovieDetail,

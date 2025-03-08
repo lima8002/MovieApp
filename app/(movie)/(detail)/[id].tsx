@@ -43,7 +43,7 @@ const DetailScreen = () => {
 
   const renderItem = ({ item }: { item: CastArray }) => {
     return (
-      <View className="mr-3 max-h-[435] max-w-[125] min-h-[187.5] min-w-[125]">
+      <View className="mr-3 max-h-[435] max-w-[125] min-h-[187.5] min-w-[125] pb-10">
         <Card className="mr-5 overflow-hidden max-h-[187.5] max-w-[125] min-h-[187.5] min-w-[125]">
           {item?.profile_path ? (
             <Image
@@ -56,13 +56,13 @@ const DetailScreen = () => {
                   : undefined
               }
             />
-          ) : item?.gender === 1 ? (
-            <View className="bg-gray-300 max-h-[187.5] max-w-[125] min-h-[187.5] min-w-[125] justify-center items-center">
-              <Text>🤦🏼‍♀️</Text>
-            </View>
           ) : (
             <View className="bg-gray-300 max-h-[187.5] max-w-[125] min-h-[187.5] min-w-[125] justify-center items-center">
-              <Text>🤦🏼</Text>
+              <Image
+                source={require("assets/images/avatar.png")}
+                style={{ width: 96, height: 96 }}
+                tintColor={"gray"}
+              />
             </View>
           )}
         </Card>
@@ -111,15 +111,17 @@ const DetailScreen = () => {
                   style={{ height: "auto", width: "85%" }}
                 >
                   {movieDetail?.title}{" "}
-                  <Text className="text-2xl">
-                    ({movieDetail?.release_date.slice(0, 4)}){" "}
-                  </Text>
+                  {movieDetail?.release_date && (
+                    <Text className="text-2xl">
+                      ({movieDetail?.release_date.slice(0, 4)}){" "}
+                    </Text>
+                  )}
                 </Text>
               </View>
               <View className="flex-row">
                 <Text
                   className="text-xl"
-                  style={{ height: "auto", width: "85%" }}
+                  style={{ height: "auto", width: "80%" }}
                 >
                   {movieDetail?.genres.map(
                     (genre, index) =>
@@ -131,7 +133,7 @@ const DetailScreen = () => {
               <View className="flex-row">
                 <Text
                   className="text-xl italic"
-                  style={{ height: "auto", width: "85%" }}
+                  style={{ height: "auto", width: "78%" }}
                 >
                   {movieDetail?.tagline}
                 </Text>
@@ -153,36 +155,43 @@ const DetailScreen = () => {
               </View>
             </View>
           </View>
-          <Text className="text-2xl pt-2">Overview:</Text>
-          <Text className="text-xl">{movieDetail?.overview}</Text>
+          <View className="pr-2 pl-2">
+            <Text className="text-2xl pt-2">Overview:</Text>
+            <Text className="text-xl">{movieDetail?.overview}</Text>
 
-          <View>
-            <Text className="text-2xl mt-1">Extras:</Text>
-            <Text className="text-xl">
-              Studio: {movieDetail?.production_companies[0].name},{" "}
-              {movieDetail?.production_companies[0].origin_country}
-            </Text>
-            <Text className="text-xl">
-              Release date: {movieDetail?.release_date.slice(8, 10)}-
-              {movieDetail?.release_date.slice(5, 7)}-
-              {movieDetail?.release_date.slice(0, 4)}
-            </Text>
-            <Text className="text-xl">
-              Budget: ${movieDetail?.budget.toLocaleString("en-US")}.00
-            </Text>
-            <Text className="text-xl">
-              Revenue: ${movieDetail?.revenue.toLocaleString("en-US")}.00
-            </Text>
-          </View>
-          <View className="h-[290] mb-2 overflow-auto">
-            <Text className="text-2xl pt-2">Cast:</Text>
-            <FlatList
-              data={castDetail?.cast}
-              renderItem={renderItem}
-              keyExtractor={(index, id) => index.toString() + id.toString()}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-            />
+            <View>
+              <Text className="text-2xl mt-1">Extras:</Text>
+              {movieDetail?.production_companies[0] && (
+                <Text className="text-xl">
+                  Studio: {movieDetail?.production_companies[0].name},{" "}
+                  {movieDetail?.production_companies[0].origin_country}
+                </Text>
+              )}
+              <Text className="text-xl">
+                Release date: {movieDetail?.release_date.slice(8, 10)}-
+                {movieDetail?.release_date.slice(5, 7)}-
+                {movieDetail?.release_date.slice(0, 4)}
+              </Text>
+              <Text className="text-xl">
+                Budget: ${movieDetail?.budget.toLocaleString("en-US") || "0"}.00
+              </Text>
+              <Text className="text-xl">
+                Revenue: ${movieDetail?.revenue.toLocaleString("en-US") || "0"}
+                .00
+              </Text>
+            </View>
+            <View className="h-[290] mb-2 overflow-auto">
+              {castDetail && castDetail?.cast.length > 0 ? (
+                <Text className="text-2xl pt-2">Cast:</Text>
+              ) : undefined}
+              <FlatList
+                data={castDetail?.cast}
+                renderItem={renderItem}
+                keyExtractor={(index, id) => index.toString() + id.toString()}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+              />
+            </View>
           </View>
         </View>
       </ImageBackground>

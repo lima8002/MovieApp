@@ -19,14 +19,19 @@ interface TMDBResponse {
   total_results: number;
 }
 
-export const fetchMovies = async (type: number) => {
+export const fetchMovies = async (type: number, query?: string) => {
+  console.log("here---> " + TYPE_CLASS[type].fetch);
   let fetchType = TYPE_CLASS[type].fetch;
+  console.log("fetchType " + fetchType);
+  console.log("query " + query);
+
+  const endpoint =
+    fetchType === "query"
+      ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query || "")}`
+      : `${API_BASE_URL}/movie/${fetchType}?language=en-US&page=1`;
 
   try {
-    const response = await fetch(
-      `${API_BASE_URL}/movie/${fetchType}?language=en-US&page=1`,
-      API_OPTIONS
-    );
+    const response = await fetch(endpoint, API_OPTIONS);
     const data: TMDBResponse = await response.json();
     return data.results;
   } catch (error) {

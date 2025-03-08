@@ -1,11 +1,5 @@
-import React from "react";
-import {
-  FlatList,
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  ActivityIndicator,
-} from "react-native";
+import React, { useEffect, useState } from "react";
+import { FlatList, StyleSheet, View, TouchableOpacity } from "react-native";
 import { Text } from "./../ui/text";
 import { Movie } from "~/types/types";
 import { useRouter } from "expo-router";
@@ -13,9 +7,14 @@ import { useMovieContext } from "~/lib/tmdb/movieContext";
 import { TYPE_CLASS } from "~/lib/constants";
 import CoverCard from "./CoverCard";
 
-const MovieCard = ({ type }: { type: number }) => {
-  const { moviesPopular, moviesNowPlaying, moviesTopRated, moviesUpComing } =
-    useMovieContext();
+const MovieCard = ({ type, query }: { type: number; query?: string }) => {
+  const {
+    search,
+    moviesPopular,
+    moviesNowPlaying,
+    moviesTopRated,
+    moviesUpComing,
+  } = useMovieContext();
   const router = useRouter();
   let data;
   let title;
@@ -40,6 +39,11 @@ const MovieCard = ({ type }: { type: number }) => {
       title = TYPE_CLASS[type].name;
       break;
 
+    case 4:
+      data = search;
+      title = TYPE_CLASS[type].name;
+      break;
+
     default:
       break;
   }
@@ -52,7 +56,7 @@ const MovieCard = ({ type }: { type: number }) => {
 
   return (
     <View>
-      <Text className="text-xl">{title}</Text>
+      <Text className="text-xl pt-5 pb-3 font-bold">{title}</Text>
       <FlatList
         data={data}
         renderItem={renderItem}
@@ -62,7 +66,7 @@ const MovieCard = ({ type }: { type: number }) => {
           new Date().getMilliseconds().toString()
         }
         horizontal
-        initialNumToRender={19}
+        initialNumToRender={20}
         showsHorizontalScrollIndicator={false}
       />
     </View>
@@ -70,5 +74,3 @@ const MovieCard = ({ type }: { type: number }) => {
 };
 
 export default MovieCard;
-
-const styles = StyleSheet.create({});
