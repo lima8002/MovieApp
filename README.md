@@ -4,7 +4,7 @@
 [![React Native](https://img.shields.io/badge/React%20Native-v0.70+-blue.svg)](https://reactnative.dev/)
 [![Platform](https://img.shields.io/badge/Platform-iOS%20%7C%20Android-brightgreen.svg)](https://reactnative.dev/docs/environment-setup)
 
-**A React Native application for exploring movies and TV shows.**
+**A React Native application for exploring movies from TMDB.org.**
 
 ## Table of Contents
 
@@ -12,7 +12,6 @@
   - [Table of Contents](#table-of-contents)
   - [Overview](#overview)
   - [Features](#features)
-  - [Screenshots](#screenshots)
   - [Tech Stack](#tech-stack)
   - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
@@ -35,7 +34,6 @@ This Movie App is built using React Native and allows users to browse, search, a
 ## Features
 
 - **Movie Browsing:** Browse a list of popular, top-rated, or now playing movies.
-- **TV Show Browsing:** Explore a list of popular and top-rated TV shows.
 - **Search:** Search for specific movies or TV shows by title.
 - **Movie/Show Details:** View detailed information about a selected movie or TV show, including:
   - Title
@@ -46,36 +44,26 @@ This Movie App is built using React Native and allows users to browse, search, a
   - Cast
   - Trailer (if available)
   - Poster/Backdrop images
-- **Filtering:** Filter movies and TV shows by genre or other criteria (if applicable).
-- **Pagination:** Load more movies or shows as the user scrolls (infinite scrolling).
-- **Responsive Design:** Adapts to different screen sizes and device orientations.
-- **Favorites:** users can save their favorites shows or movies
-- **Recommendations**: App suggest new shows or movies to the user based on their favorites
 
-**(Add more features specific to _your_ app here.)**
-
-## Screenshots
+<!-- ## Screenshots
 
 **(Add screenshots or GIFs of your app here.)**
 
 - Screenshot 1: Home Screen
 - Screenshot 2: Movie Detail Screen
 - Screenshot 3: Search Results
-- Screenshot 4: Favorites Screen
+- Screenshot 4: Favorites Screen -->
 
 ## Tech Stack
 
 - **React Native:** For building the cross-platform mobile app.
-- **JavaScript:** The primary programming language.
-- **Expo (optional):** A framework and a platform for universal React applications.
-- **Navigation Library (e.g., React Navigation):** For handling app navigation.
-- **State Management (e.g., Redux, Context API):** For managing the app's state.
-- **HTTP Client (e.g., Axios, fetch):** For making API requests.
+- **TypeScript:** The primary programming language.
+- **Expo:** A framework and a platform for universal React applications.
+- **Navigation Library (e.g., Expo Router):** For handling app navigation.
+- **State Management (e.g., Context API):** For managing the app's state.
+- **HTTP Client (e.g., fetch):** For making API requests.
 - **Third-party API (e.g., TMDB):** For movie and TV show data.
-- **Async Storage (optional)**: For persisten data like favorites.
-- **Vector Icons:** For icons.
-
-**(Modify this based on the technologies _you actually used_.)**
+- **Icons:** Icons downloaded from [https://icons8.com](https://icons8.com]).
 
 ## Getting Started
 
@@ -123,9 +111,7 @@ This Movie App is built using React Native and allows users to browse, search, a
     npx react-native run-ios
     # or
     yarn ios
-    `
-    **Using Expo (if applicable):**
-    `bash
+    `**Using Expo (if applicable):**`bash
     npx expo start
     #or
     yarn expo start
