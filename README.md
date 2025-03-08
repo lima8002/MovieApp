@@ -18,7 +18,6 @@
     - [Installation](#installation)
     - [Running the App](#running-the-app)
   - [API](#api)
-  - [Project Structure](#project-structure)
 
 ## Overview
 
@@ -108,14 +107,14 @@ This Movie App is built using React Native and allows users to browse, search, a
 2.  Select a simulator or connect an iOS device.
 3.  Build and run the project from Xcode.
     `bash
-    npx react-native run-ios
-    # or
-    yarn ios
-    `**Using Expo (if applicable):**`bash
-    npx expo start
-    #or
-    yarn expo start
-    `
+npx react-native run-ios
+or
+yarn ios
+`**Using Expo (if applicable):**`bash
+npx expo start
+#or
+yarn expo start
+`
 
 ## API
 
@@ -123,7 +122,3 @@ This app uses **The Movie Database (TMDB) API** to fetch movie data.
 
 - **Endpoint:** [https://developers.themoviedb.org/3/getting-started/introduction](https://developers.themoviedb.org/3/getting-started/introduction)
 - **API Key:** You must create a free API key to use this application.
-
-**(Update this section to reflect the actual API(s) you're using.)**
-
-## Project Structure
